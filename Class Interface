@@ -19,5 +19,5 @@ def __setAddress__(self, address,val_address):
 
 def renameInterface():
 	mon_fichier = open("/etc/udev/rules.d/70-persistent-net.rules", "a")
-	mon_fichier.write("SUBSYSTEM=="net", ACTION=="add", DRIVERS=="?*",ATTR{address}=="00:00:00:00:00:00",ATTR{dev_id}=="0x0", ATTR{type}=="1",KERNEL=="eth*", NAME="eth0"")
+	mon_fichier.write("SUBSYSTEM=="net", ACTION=="add", DRIVERS=="?*",ATTR{address}=="00:00:00:00:00:00",ATTR{dev_id}=="0x0", ATTR{type}=="1",KERNEL=="eth*", NAME="eth0" \n")
 	mon_fichier.close()

@@ -1,0 +1,23 @@
+
+default-lease-time 600;
+max-lease-time 7200;
+
+ddns-update-style none;
+
+authoritative;
+
+#Allocation de la première interface
+#subnet 1 {
+	#range 1;
+	#option subnet-mask 1;
+	#option brd-address 1;
+	#option router 1;
+	}
+
+#Allocation de la deuxième interface
+#subnet 2 {
+	#range 2;
+	#option subnet-mask 2;
+	#option brd-address 2;
+	#option router 2;
+	}
