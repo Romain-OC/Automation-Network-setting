@@ -3,8 +3,8 @@ Class FireWall
 def _init_(self,listInterface):
 	self.interface = listInterface
 	self.typeFW = standard
-	//self.openPort=list()
-	//self.protocol=list()
+	self.openPort=list()
+	self.protocol=list()
 
 def initFichier(interface):
 	firewall = open("/usr/local/sbin/firewall.sh", "a")

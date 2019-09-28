@@ -1,7 +1,7 @@
 Class DetecOS :
 	import sys
-	import platform
+	import distro
 
 
 def __init__(self):
-	self.type = os.uname()
+	self.type = distro.linux_distribution(full_distribution_name=False)
