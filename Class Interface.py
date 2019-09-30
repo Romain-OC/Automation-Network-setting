@@ -1,4 +1,4 @@
-Class Interface :
+﻿Class Interface :
 
 import subprocess
 import shutil
@@ -30,7 +30,7 @@ def chemin():
 	break;
 }
 
-def renameInterface():
+def renameInterface(listMac):
 
 	mon_fichier = open("/etc/udev/rules.d/70-persistent-net.rules", "a")
 	i = 0
@@ -39,7 +39,7 @@ def renameInterface():
 		i+=1
 	mon_fichier.close()
 
-def configInterface():
+def configInterface(listMac,address):
 	if chemin == "/etc/network/interfaces"
 	filePath = shutil.copy('interfaces', '/etc/network/')
 	mon_fichier = open(chemin,"a")

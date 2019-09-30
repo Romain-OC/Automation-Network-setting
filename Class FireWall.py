@@ -1,7 +1,7 @@
 Class FireWall
 
 def _init_(self,listInterface):
-	self.interface = listInterface
+	self.interface = list()
 	self.typeFW = standard
 	self.openPort=list()
 	self.protocol=list()
@@ -23,7 +23,7 @@ def standardConfig():
 	firewall.write("$IPT -P INPUT DROP \n")
 	firewall.write("$IPT -P FORWARD DROP")
 
-def OpenPort(openPort[]):
+def OpenPort(openPort[],protocol[]):
 	firewall = open("/usr/local/sbin/firewall.sh", "a")
 	i = 0
 	while i<(len(openPort)-1):

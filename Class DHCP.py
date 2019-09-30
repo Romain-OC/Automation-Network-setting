@@ -1,4 +1,4 @@
-Class DHCP :
+﻿Class DHCP :
 
 Def _init_(self) :
 
@@ -27,5 +27,19 @@ def configDHCP(Subnet,range,gateway) :
 	if chaine in ligne :
 
                 ligne = "option routers "+gateway+" ;"
+                 mon_fichier.write(ligne)
+	
+	chaine = "#subnet 1 ;"
+	
+	if chaine in ligne :
+
+                ligne = "subnet "+Self.subnet+" netmask 255.255.255.0 {"
+                 mon_fichier.write(ligne)
+
+	chaine = "#range 1;"
+	
+	if chaine in ligne :
+
+                ligne = "range "+Self.range[0]+" "+Self.range[1]+";"
                  mon_fichier.write(ligne)
 	mon_fichier.close()
