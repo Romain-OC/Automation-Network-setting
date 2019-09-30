@@ -1,4 +1,4 @@
-Class FireWall
+class FireWall
 
 def _init_(self,listInterface):
 	self.interface = list()

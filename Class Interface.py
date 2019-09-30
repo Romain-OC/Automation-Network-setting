@@ -1,4 +1,4 @@
-﻿Class Interface :
+﻿class Interface :
 
 import subprocess
 import shutil

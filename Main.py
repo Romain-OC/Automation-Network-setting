@@ -1,5 +1,6 @@
-﻿
-Class Main :
+﻿class Main :
+
+#INTERFACE
 	interfaces = new Interface()
 	dhcp = new DHCP()
 	parefeu= new FireWall()
@@ -17,6 +18,7 @@ Class Main :
 	renameInterface(interfaces.listMac[])
 	configInterface(interfaces.listMac[],interfaces.address[])
 
+#DHCP
 	continue = raw_input("Voulez vous configurez un dhcp ? o pour oui, n pour non")
 	While continue!= 'n' & continue != 'o' : 
 				continue = raw_input("veuiller entrer une valeur correcte. o pour oui, n pour non")
@@ -29,6 +31,7 @@ Class Main :
 		Self.gateway= raw_input("quelle est la passerelle ?")
 	configDHCP(dhcp.subnet,dhcp.range,dhcp.gateway)
 	
+#PAREFEU
 	continue = raw_input("Voulez vous configurez un parefeu ? o pour oui, n pour non")
 	While continue!= 'n' & continue != 'o' : 
 				continue = raw_input("veuiller entrer une valeur correcte. o pour oui, n pour non")

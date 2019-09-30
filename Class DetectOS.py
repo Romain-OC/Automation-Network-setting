@@ -1,4 +1,4 @@
-Class DetecOS :
+class DetecOS :
 	import sys
 	import distro
 

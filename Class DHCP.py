@@ -1,4 +1,4 @@
-﻿Class DHCP :
+﻿class DHCP :
 
 Def _init_(self) :
 
