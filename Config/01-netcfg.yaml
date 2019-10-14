@@ -1,9 +1,0 @@
-
-#network:
-  version: 2
-  renderer: networkd
-  ethernets:
-    #enp1s0f0:
-      #addresses: []
-      #gateway4: 
-      #dhcp4: yes
