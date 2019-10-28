@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 class FireWall:
 
-	def _init_(self,listInterface):
+	def __init__(self,listInterface):
 		self.interface = listInterface
 		self.openPort=list()
 		self.protocol=list()
