@@ -6,3 +6,11 @@
 
 #MAC
 
+#BOOTPROTO=none
+
+#NETWORK=
+
+#NETMASK=
+
+#IPADDR=
+

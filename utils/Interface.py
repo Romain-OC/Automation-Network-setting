@@ -71,60 +71,31 @@ class Interface:
                 i+=1
         elif self.chemin == "/etc/netplan/01-netcfg.yaml":
             shutil.copy('utils/01-netcfg.yaml', '/etc/netplan/')
-            mon_fichier = open(self.chemin,"r+")
             i=0
             while i<(len(listMac)-1):
-                chaine = "#enp1s0f0:"
-            
-                # on boucle sur les lignes du fichier1 original
-                for ligne in mon_fichier :
-
-                    if chaine in ligne :
-
-                        ligne = "eth"+str(i)+":"
-                        mon_fichier.write(ligne)
-            
-                chaine = "#dhcp4: yes"
-
-                for ligne in mon_fichier :
-
-                    if chaine in ligne :
-
-                        ligne = "dhcp4: yes"
-                        mon_fichier.write(ligne)
-
-                chaine = "#addresses: []"
-
-                for ligne in mon_fichier :
-
-                    if chaine in ligne :
-
-                        ligne = "#addresses: ["+self.address[i]+"/24]"
-                        mon_fichier.write(ligne)
-            mon_fichier.close()
+                temp = {
+                        "#eth"+str(i)+":": "eth"+str(i)+":",
+                        "\t#dhcp4: yes"+str(i): "dhcp4: no",
+                        "\t#addresses: []"+str(i): "addresses: ["+self.address[i]+"/24]"
+                        }
+                for line in fileinput.input('/etc/netplan/01-netcfg.yaml',inplace=True):
+                    line = line.rstrip('\r\n')
+                    print(temp.get(line, line))
+                i+=1
         elif self.chemin == "/etc/sysconfig/network-scripts/":
             i=0
             while i<(len(listMac)-1):
-                shutil.copy('ifcfg-eth', '/etc/sysconfig/network-scripts/ifcfg-eth'+str(i))
-                mon_fichier = open('/etc/sysconfig/network-scripts/ifcfg-eth'+i,"r+")
-                chaine = "#DEVICE=eth0"
-                for ligne in mon_fichier :
-                    if chaine in ligne :
-                        ligne = "DEVICE=eth"+str(i)
-                        mon_fichier.write(ligne)
-                chaine = "#ONBOOT=yes"
-                for ligne in mon_fichier :
-                    if chaine in ligne :
-                        ligne = "ONBOOT=yes"
-                        mon_fichier.write(ligne)
-                chaine = "#NAME=lan"
-                for ligne in mon_fichier :
-                    if chaine in ligne :
-                        ligne = "NAME=lan"+str(i)
-                        mon_fichier.write(ligne)
-                chaine = "#MAC"
-                for ligne in mon_fichier :
-                    if chaine in ligne :
-                        ligne = "MAC="+self.listMac[i]
-                        mon_fichier.write(ligne)
-            mon_fichier.close()
+                shutil.copy('ifcfg-eth0', '/etc/sysconfig/network-scripts/ifcfg-eth'+str(i))
+                temp = {
+                        "#DEVICE=eth0": "DEVICE=eth"+str(i),
+                        "#ONBOOT=yes": "ONBOOT=yes",
+                        "#NAME=lan": "NAME=lan"+str(i),
+                        "#MAC":"MAC="+self.listMac[i],
+                        "#BOOTPROTO=none":"BOOTPROTO=none",
+                        "#NETMASK=":"NETMASK=255.255.255.0",
+                        "#IPADDR=":"IPADDR="+self.address[i]
+                        }
+                for line in fileinput.input('/etc/sysconfig/network-scripts/ifcfg-eth'+i,inplace=True):
+                    line = line.rstrip('\r\n')
+                    print(temp.get(line, line))
+                i+=1

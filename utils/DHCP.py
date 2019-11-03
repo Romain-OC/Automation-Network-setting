@@ -22,19 +22,3 @@ class DHCP:
         for line in fileinput.input(filename,inplace = True):
             line = line.rstrip('\r\n')
             print(temp.get(line,line))
-                        
-        
-        #mon_fichier = open("/etc/dhcp/dhcpd.conf","a")
-        #chaine = "#option routers ;"
-        #if chaine in ligne :
-            #ligne = "option routers "+gateway+" ;"
-            #mon_fichier.write(ligne)
-        #chaine = "#subnet 1 ;"
-        #if chaine in ligne :
-            #ligne = "subnet "+self.subnet+" netmask 255.255.255.0 {"
-            #mon_fichier.write(ligne)
-        #chaine = "#range 1;"
-        #if chaine in ligne :
-            #ligne = "range "+self.range[0]+" "+self.range[1]+";"
-            #mon_fichier.write(ligne)
-        #mon_fichier.close()

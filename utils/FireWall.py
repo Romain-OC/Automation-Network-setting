@@ -1,4 +1,6 @@
 #!/usr/bin/env python3
+import fileinput
+import subprocess
 class FireWall:
 
 	def __init__(self,listInterface):
@@ -38,3 +40,13 @@ class FireWall:
 		firewall.write("firewall_restart(){ \nfirewall_stop \nsleep 2 \nfirewall_start \n}")
 		firewall.write("case $1 in \n\t\t'start') \n\t\t\tfirewall_start \n\t\t\t;; \n\t\t'stop') \n\t\t\tfirewall_stop \n\t\t\t;; \n\t\t'restart') \n\t\t\tfirewall_restart \n\t\t\t;; \n*) \n\t\t\techo usage: -bash {start|stop|restart} \nesac")
 		firewall.close
+	
+	def launchFirewall(self):
+		executable = subprocess.run('chmod +x /usr/local/sbin/firewall.sh',shell = True)
+		temp = {
+			'\t\t#start firewall': 'post-up /usr/local/sbin/firewall.sh start',
+			'\t\t#start firewall': 'pre-down /usr/local/sbin/firewall.sh stop'
+		}
+		for line in fileinput.input('/etc/network/interfaces',inplace = True):
+			line = line.rstrip('\r\n')
+			print(temp.get(line, line))
