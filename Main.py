@@ -65,5 +65,6 @@ class Main :
         parefeu.openPort.extend(('53','1'))
     parefeu.OpenPort(parefeu.openPort,parefeu.protocol)
     parefeu.endConfig()
+    parefeu.launchFirewall()
     cont = input("Le système va redémarrer veuillez appuyer sur entrée pour continuer \n")
     subprocess.run('reboot',shell=True)
