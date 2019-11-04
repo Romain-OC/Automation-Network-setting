@@ -45,7 +45,7 @@ class FireWall:
 		executable = subprocess.run('chmod +x /usr/local/sbin/firewall.sh',shell = True)
 		temp = {
 			'\t\t#start firewall': 'post-up /usr/local/sbin/firewall.sh start',
-			'\t\t#start firewall': 'pre-down /usr/local/sbin/firewall.sh stop'
+			'\t\t#stop firewall': 'pre-down /usr/local/sbin/firewall.sh stop'
 		}
 		for line in fileinput.input('/etc/network/interfaces',inplace = True):
 			line = line.rstrip('\r\n')
