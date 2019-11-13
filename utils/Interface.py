@@ -16,16 +16,7 @@ class Interface:
         self.listMac = self.mac.decode().split("\n")
         self.chemin = ""
         self.ostype = DetectOS()
-   
-    #def __getNom__(self, nom):
-   
-    #def __getAddress__(self, address, int id):
-        #return Self._address[id]
-
-    #def __setNom__(self, nom,val_nom):
-
-    #def __setAddress__(self, address,val_address):
-
+    #define the path of the interface configuration file considering the OS
     def pathfile(self,n):
         switcher = {
             'debian':"/etc/network/interfaces",
@@ -33,7 +24,7 @@ class Interface:
             'centos':"/etc/sysconfig/network-scripts/"
         }
         return switcher.get(n,"la méthode ne détecte pas l'OS" ) 
-
+    #rename interfaces with their previous designation "ethx"
     def renameInterface(self,listMac):
 
         mon_fichier = open("/etc/udev/rules.d/70-persistent-net.rules", "a")
@@ -50,7 +41,6 @@ class Interface:
             line = line.rstrip('\r\n')
             print(temp.get(line,line))
         subprocess.run('grub-mkconfig -o /boot/grub/grub.cfg',shell=True)
-
 
     def configInterface(self,listMac,address):
         self.chemin= self.pathfile(self.ostype.nomdist[0])
@@ -74,9 +64,9 @@ class Interface:
             i=0
             while i<(len(listMac)-1):
                 temp = {
-                        "#eth"+str(i)+":": "eth"+str(i)+":",
-                        "\t#dhcp4: yes"+str(i): "dhcp4: no",
-                        "\t#addresses: []"+str(i): "addresses: ["+self.address[i]+"/24]"
+                        "\t#eth"+str(i)+":": "\teth"+str(i)+":",
+                        "\t\t#dhcp4: yes"+str(i): "\t\tdhcp4: no",
+                        "\t\t#addresses: []"+str(i): "\t\taddresses: ["+self.address[i]+"/24]"
                         }
                 for line in fileinput.input('/etc/netplan/01-netcfg.yaml',inplace=True):
                     line = line.rstrip('\r\n')
