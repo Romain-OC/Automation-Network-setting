@@ -1,5 +1,5 @@
 # Automation-Network-setting
-# _ Documentation utilisateur : _
+# _Documentation utilisateur :_
 
 Supported OS (Debian 9,Ubuntu,CentOS)
 
@@ -7,7 +7,7 @@ Ce projet à pour but d’automatiser les tâches de configuration des interface
 
 This project is made to automise network interface, dhcp and firewalls (iptables) configuration tasks
 
-## _ Interfaces configuration : _
+## Interfaces configuration :
 
 Au lancement le programme va renommer les interfaces réseaux avec l’ancienne appellation « ethx »
 Il vous sera demandé de rentrer les adresses IP voulu pour les interfaces dans l’ordre eth0, eth1 etc...
@@ -17,7 +17,7 @@ At launch the script will rename all network interfaces with their previous desi
 You will have to type the IP address wanted for your interfaces from eth0 to ethx
 Then configuration files (/etc/network/interfaces, /etc/netplan/01-netcfg.yaml, /etc/sysconfig/network-scripts/ifcfg-eth) will be generated according to the current OS and IP address typed 
 
-## _ DHCP configuration: _
+## DHCP configuration:
 
 Il vous sera ensuite demandé si vous voulez configurer un DHCP.
 
@@ -35,7 +35,7 @@ Next you will be able to chose wether you want to configure a DHCP or not.
 * last address of the range 
 * The gateway
  
-## _ Firewall configuration : _
+## Firewall configuration :
 
 Enfin il vous sera demandé si vous voulez configurer un pare-feu.
 Vous pourrez choisir quels port vous voulez ouvrir
