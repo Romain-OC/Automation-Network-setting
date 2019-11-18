@@ -71,6 +71,7 @@ class Interface:
                     line = line.rstrip('\r\n')
                     print(temp.get(line, line))
                 i+=1
+            subprocess.run('netplan apply',shell = True)
         elif self.chemin == "/etc/sysconfig/network-scripts/":
             i=0
             while i<(len(self.address)-1):
