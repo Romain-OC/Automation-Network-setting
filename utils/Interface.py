@@ -85,7 +85,7 @@ class Interface:
                         "#NETMASK=":"NETMASK=255.255.255.0",
                         "#IPADDR=":"IPADDR="+self.address[i]
                         }
-                for line in fileinput.input('/etc/sysconfig/network-scripts/ifcfg-eth'+i,inplace=True):
+                for line in fileinput.input('/etc/sysconfig/network-scripts/ifcfg-eth'+str(i),inplace=True):
                     line = line.rstrip('\r\n')
                     print(temp.get(line, line))
                 i+=1
