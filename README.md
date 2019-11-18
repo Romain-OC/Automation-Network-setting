@@ -3,6 +3,8 @@
 
 Supported OS (Debian 9,Ubuntu,CentOS)
 
+Requierement : Distro module for python3
+
 Ce projet à pour but d’automatiser les tâches de configuration des interfaces réseaux ainsi que la mise en place d’un pare-feu à l’aide d’iptables.
 
 This project is made to automise network interface, dhcp and firewalls (iptables) configuration tasks
