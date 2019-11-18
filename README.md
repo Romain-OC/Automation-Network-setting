@@ -1,9 +1,8 @@
 # Automation-Network-setting
-# _Documentation utilisateur :_
-
 Supported OS (Debian 9,Ubuntu,CentOS)
 
 Requierement : Distro module for python3
+# _Documentation utilisateur :_
 
 Ce projet à pour but d’automatiser les tâches de configuration des interfaces réseaux ainsi que la mise en place d’un pare-feu à l’aide d’iptables.
 
