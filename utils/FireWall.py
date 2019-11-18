@@ -49,7 +49,7 @@ class FireWall:
 			executable = subprocess.run('systemctl disable firewalld', shell = True)
 			executable = subprocess.run('yum install iptables-services -y', shell = True)
 			executable = subprocess.run('systemctl enable iptables', shell = True)
-			executable = subprocess.run('service iptables save',shell = True)
+			#executable = subprocess.run('service iptables save',shell = True)
 		executable = subprocess.run('chmod +x /usr/local/sbin/firewall.sh',shell = True)
 		executable = subprocess.run('/usr/local/sbin/firewall.sh start',shell = True)
 		executable = subprocess.run('echo iptables-persistent iptables-persistent/autosave_v4 boolean true | sudo debconf-set-selections',shell = True)

@@ -66,6 +66,7 @@ class Main :
                 cont = input("veuiller entrer une valeur correcte. o pour oui, n pour non \n")
     parefeu.OpenPort(parefeu.openPort,parefeu.protocol)
     parefeu.endConfig()
+    parefeu.launchFirewall()
     #reboot the system
     cont = input("Le système va redémarrer veuillez appuyer sur entrée pour continuer \n")
     subprocess.run('reboot',shell=True)
