@@ -32,7 +32,7 @@ class FireWall:
 		i = 0
 		print(len(protocol))
 		while i<(len(protocol)):
-			firewall.write("$IPT -A INPUT -p "+protocol[i]+" --dport "+openPort[i]+" -j ACCEPT \n")
+			firewall.write("$IPT -A INPUT -p "+protocol[i]+" -i $WAN --dport "+openPort[i]+" -j ACCEPT \n")
 			i+=1
 		firewall.close
 	#write the end of the script
