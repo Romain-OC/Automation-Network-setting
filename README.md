@@ -1,8 +1,7 @@
 # Automation-Network-setting
-Supported OS (Debian 9,Ubuntu 18,CentOS 8)
-
-Requierement : Distro module for python3
 # _Documentation utilisateur :_
+
+Supported OS (Debian 9,Ubuntu,CentOS)
 
 Ce projet à pour but d’automatiser les tâches de configuration des interfaces réseaux ainsi que la mise en place d’un pare-feu à l’aide d’iptables.
 
@@ -10,12 +9,12 @@ This project is made to automise network interface, dhcp and firewalls (iptables
 
 ## Interfaces configuration :
 
-Au lancement le programme va renommer les interfaces réseaux avec l’ancienne appellation « ethx »  
-Il vous sera demandé de rentrer les adresses IP voulu pour les interfaces dans l’ordre eth0 à ethx  
+Au lancement le programme va renommer les interfaces réseaux avec l’ancienne appellation « ethx »
+Il vous sera demandé de rentrer les adresses IP voulu pour les interfaces dans l’ordre eth0, eth1 etc...
 Ensuite les fichiers de configuration (/etc/network/interfaces, /etc/netplan/01-netcfg.yaml, /etc/sysconfig/network-scripts/ifcfg-eth) seront générés automatiquement en fonction de votre système d’exploitation avec les adresses IP données 
 
-At launch the script will rename all network interfaces with their previous designation "ethx".  
-You will have to type the IP address wanted for your interfaces from eth0 to ethx.  
+At launch the script will rename all network interfaces with their previous designation "ethx"
+You will have to type the IP address wanted for your interfaces from eth0 to ethx
 Then configuration files (/etc/network/interfaces, /etc/netplan/01-netcfg.yaml, /etc/sysconfig/network-scripts/ifcfg-eth) will be generated according to the current OS and IP address typed 
 
 ## DHCP configuration:
