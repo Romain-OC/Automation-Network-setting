@@ -52,7 +52,7 @@ class FireWall:
 			executable = subprocess.run('service iptables save',shell = True)
 		executable = subprocess.run('chmod +x /usr/local/sbin/firewall.sh',shell = True)
 		executable = subprocess.run('/usr/local/sbin/firewall.sh start',shell = True)
-  		executable = subprocess.run('echo iptables-persistent iptables-persistent/autosave_v4 boolean true | sudo debconf-set-selections',shell = True)
+		executable = subprocess.run('echo iptables-persistent iptables-persistent/autosave_v4 boolean true | sudo debconf-set-selections',shell = True)
 		executable = subprocess.run('echo iptables-persistent iptables-persistent/autosave_v6 boolean true | sudo debconf-set-selections',shell = True)
 		executable = subprocess.run('apt-get install iptables-persistent -y',shell = True)
 		executable = subprocess.run('netfilter-persistent save',shell = True)
