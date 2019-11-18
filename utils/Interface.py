@@ -26,7 +26,6 @@ class Interface:
         return switcher.get(n,"la méthode ne détecte pas l'OS" ) 
     #rename interfaces with their previous designation "ethx"
     def renameInterface(self,listMac):
-
         mon_fichier = open("/etc/udev/rules.d/70-persistent-net.rules", "a")
         i = 0
         while i<(len(listMac)-1):
@@ -34,13 +33,14 @@ class Interface:
             self.address.append("eth"+str(i))
             i+=1
         mon_fichier.close()
-        temp = {
-                'GRUB_CMDLINE_LINUX=\"\"':'GRUB_CMDLINE_LINUX=\"net.ifnames=0 biosdevname=0\"'
-            }
-        for line in fileinput.input('/etc/default/grub',inplace=True):
-            line = line.rstrip('\r\n')
-            print(temp.get(line,line))
-        subprocess.run('grub-mkconfig -o /boot/grub/grub.cfg',shell=True)
+        if self.ostype.nomdist[0]=='debian':
+            temp = {
+                    'GRUB_CMDLINE_LINUX=\"\"':'GRUB_CMDLINE_LINUX=\"net.ifnames=0 biosdevname=0\"'
+                }
+            for line in fileinput.input('/etc/default/grub',inplace=True):
+                line = line.rstrip('\r\n')
+                print(temp.get(line,line))
+            subprocess.run('grub-mkconfig -o /boot/grub/grub.cfg',shell=True)
 
     def configInterface(self,listMac,address):
         self.chemin= self.pathfile(self.ostype.nomdist[0])
@@ -75,7 +75,7 @@ class Interface:
         elif self.chemin == "/etc/sysconfig/network-scripts/":
             i=0
             while i<(len(self.address)-1):
-                shutil.copy('ifcfg-eth0', '/etc/sysconfig/network-scripts/ifcfg-eth'+str(i))
+                shutil.copy('utils/ifcfg-eth0', '/etc/sysconfig/network-scripts/ifcfg-eth'+str(i))
                 temp = {
                         "#DEVICE=eth0": "DEVICE=eth"+str(i),
                         "#ONBOOT=yes": "ONBOOT=yes",
