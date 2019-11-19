@@ -3,7 +3,7 @@
 
 Supported OS (Debian 9,Ubuntu,CentOS)
 
-requierement : distro module for python3
+Requirement : distro module for python3
 
 # Français :
 
