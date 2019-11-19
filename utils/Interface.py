@@ -11,6 +11,7 @@ class Interface:
 
         self.nom = "eth"
         self.address = list()
+        self.netmask = list()
         self.macAddress = subprocess.run('ip a |grep ether |cut -d\' \' -f6', shell = True, stdout = subprocess.PIPE, stderr = subprocess.PIPE)
         self.mac = self.macAddress.stdout
         self.listMac = self.mac.decode().split("\n")
@@ -26,7 +27,6 @@ class Interface:
         return switcher.get(n,"la méthode ne détecte pas l'OS" ) 
     #rename interfaces with their previous designation "ethx"
     def renameInterface(self,listMac):
-
         mon_fichier = open("/etc/udev/rules.d/70-persistent-net.rules", "a")
         i = 0
         while i<(len(listMac)-1):
@@ -34,13 +34,14 @@ class Interface:
             self.address.append("eth"+str(i))
             i+=1
         mon_fichier.close()
-        temp = {
-                'GRUB_CMDLINE_LINUX=\"\"':'GRUB_CMDLINE_LINUX=\"net.ifnames=0 biosdevname=0\"'
-            }
-        for line in fileinput.input('/etc/default/grub',inplace=True):
-            line = line.rstrip('\r\n')
-            print(temp.get(line,line))
-        subprocess.run('grub-mkconfig -o /boot/grub/grub.cfg',shell=True)
+        if self.ostype.nomdist[0]=='debian':
+            temp = {
+                    'GRUB_CMDLINE_LINUX=\"\"':'GRUB_CMDLINE_LINUX=\"net.ifnames=0 biosdevname=0\"'
+                }
+            for line in fileinput.input('/etc/default/grub',inplace=True):
+                line = line.rstrip('\r\n')
+                print(temp.get(line,line))
+            subprocess.run('grub-mkconfig -o /boot/grub/grub.cfg',shell=True)
 
     def configInterface(self,listMac,address):
         self.chemin= self.pathfile(self.ostype.nomdist[0])
@@ -52,7 +53,7 @@ class Interface:
                         "#allow-hotplug eth"+str(i): "allow-hotplug eth"+str(i),
                         "#iface eth"+str(i)+" inet dhcp": "iface eth"+str(i)+" inet static",
                         "\t#address eth"+str(i): "\taddress "+self.address[i],
-                        "\t#netmask eth"+str(i): "\tnetmask 255.255.255.0"
+                        "\t#netmask eth"+str(i): "\tnetmask "+self.netmask[i]
                         }
                 for line in fileinput.input('/etc/network/interfaces',inplace=True):
                     line = line.rstrip('\r\n')
@@ -65,7 +66,7 @@ class Interface:
                 temp = {
                         "\t#eth"+str(i)+":": "\teth"+str(i)+":",
                         "\t\t#dhcp4: yes"+str(i): "\t\tdhcp4: no",
-                        "\t\t#addresses: []"+str(i): "\t\taddresses: ["+self.address[i]+"/24]"
+                        "\t\t#addresses: []"+str(i): "\t\taddresses: ["+self.address[i]+""+self.netmask[i]+"]"
                         }
                 for line in fileinput.input('/etc/netplan/01-netcfg.yaml',inplace=True):
                     line = line.rstrip('\r\n')
@@ -75,17 +76,17 @@ class Interface:
         elif self.chemin == "/etc/sysconfig/network-scripts/":
             i=0
             while i<(len(self.address)-1):
-                shutil.copy('ifcfg-eth0', '/etc/sysconfig/network-scripts/ifcfg-eth'+str(i))
+                shutil.copy('utils/ifcfg-eth0', '/etc/sysconfig/network-scripts/ifcfg-eth'+str(i))
                 temp = {
                         "#DEVICE=eth0": "DEVICE=eth"+str(i),
                         "#ONBOOT=yes": "ONBOOT=yes",
                         "#NAME=lan": "NAME=lan"+str(i),
                         "#MAC":"MAC="+self.listMac[i],
                         "#BOOTPROTO=none":"BOOTPROTO=none",
-                        "#NETMASK=":"NETMASK=255.255.255.0",
+                        "#NETMASK=":"NETMASK="+self.netmask[i],
                         "#IPADDR=":"IPADDR="+self.address[i]
                         }
-                for line in fileinput.input('/etc/sysconfig/network-scripts/ifcfg-eth'+i,inplace=True):
+                for line in fileinput.input('/etc/sysconfig/network-scripts/ifcfg-eth'+str(i),inplace=True):
                     line = line.rstrip('\r\n')
                     print(temp.get(line, line))
                 i+=1

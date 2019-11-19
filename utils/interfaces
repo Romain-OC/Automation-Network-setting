@@ -10,8 +10,6 @@ iface lo inet loopback
 #iface eth0 inet dhcp
 	#address eth0
 	#netmask eth0
-		#start firewall
-		#stop firewall
 
 #allow-hotplug eth1
 #iface eth1 inet dhcp

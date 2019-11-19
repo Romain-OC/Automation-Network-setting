@@ -7,9 +7,15 @@ class Main :
 
 #INTERFACE
     interfaces = Interface()
-    #request the address for the first interface
+    #request the address and netsmak for the first interface
     naddress = input("Entrez la première address \n")
     interfaces.address.append(naddress)
+    if interfaces.ostype.nomdist[0]=='ubuntu':
+            netmask = input("Entrez le masque de sous réseau au format CIDR (ex: /24) \n")
+            interfaces.netmask.append(netmask)
+    else:
+        netmask = input("Entrez le masque de sous réseau \n")
+        interfaces.netmask.append(netmask)
     cont = input("Entrer une autre addresse ? o pour oui, n pour non \n")
     #if 'o' request address for other interfaces if 'n' skip
     while ( not(cont == 'n') and not(cont == 'o')):
@@ -17,6 +23,12 @@ class Main :
     while cont == 'o':
         naddress = input("Entrez l'addresse suivante \n")
         interfaces.address.append(naddress)
+        if interfaces.ostype.nomdist[0]=='ubuntu':
+            netmask = input("Entrez le masque de sous réseau au format CIDR (ex: /24) \n")
+            interfaces.netmask.append(netmask)
+        else:
+            netmask = input("Entrez le masque de sous réseau \n")
+            interfaces.netmask.append(netmask)
         cont = input("Entrer une autre addresse ? o pour oui, n pour non \n")
         while (not (cont == 'n') and not (cont == 'o')) :
             cont = input("veuiller entrer une valeur correcte. o pour oui, n pour non \n")
@@ -25,10 +37,11 @@ class Main :
 #DHCP
     dhcp = DHCP()
     #if 'o' starts the dhcp configuration if 'n' skip
-    cont = input("Voulez vous configurez un dhcp ? o pour oui, n pour non \n")
+    cont = input("Voulez vous configurez un serveur dhcp ?(max 3) o pour oui, n pour non \n")
     while (not ( cont == 'n') and not (cont == 'o')) :
         cont = input("veuiller entrer une valeur correcte. o pour oui, n pour non \n")
-    while cont =='o':
+    i=0
+    while cont =='o' and i<3:
         #request options for the dhcp
         dhcp.subnet= input("sur quelle réseau doit etre le dhcp ? \n")
         address = input("quelle est la première addresse de la range ? \n")
@@ -37,9 +50,10 @@ class Main :
         dhcp.drange.append(address)
         dhcp.gateway= input("quelle est la passerelle ? \n")
         dhcp.configDHCP(dhcp.subnet,dhcp.drange,dhcp.gateway)
-        cont = input("Voulez vous configurez un autre dhcp ? o pour oui, n pour non \n")
+        cont = input("Voulez vous configurez un autre serveur dhcp ? o pour oui, n pour non \n")
         while (not ( cont == 'n') and not (cont == 'o')) :
             cont = input("veuiller entrer une valeur correcte. o pour oui, n pour non \n")
+        i+=1
 	
 #PAREFEU
     parefeu = FireWall(interfaces.address)
