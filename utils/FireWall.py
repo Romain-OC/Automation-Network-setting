@@ -15,8 +15,10 @@ class FireWall:
 		firewall.write("#!/bin/bash\n")
 		firewall.write("IPT=/sbin/iptables\n")
 		firewall.write("WAN=eth0\n")
-		if self.interface[1]!=None:
-			firewall.write("LAN=eth1\n")
+		if len(self.interface)>1:
+			i=1
+			while i<(len(self.interface)-1):
+				firewall.write("LAN=eth"+str(i)+"\n")
 		firewall.write("firewall_start(){\n \n")
 		firewall.close()
 	#write in the firewall script the standard rules of the firewall
@@ -46,13 +48,11 @@ class FireWall:
 	#make the firewall file , executable and configure the start and stop at boot of the OS
 	def launchFirewall(self):
 		if self.ostype.nomdist[0] == 'centos':
-			executable = subprocess.run('systemctl disable firewalld', shell = True)
-			executable = subprocess.run('yum install iptables-services -y', shell = True)
-			executable = subprocess.run('systemctl enable iptables', shell = True)
-			#executable = subprocess.run('service iptables save',shell = True)
-		executable = subprocess.run('chmod +x /usr/local/sbin/firewall.sh',shell = True)
-		executable = subprocess.run('/usr/local/sbin/firewall.sh start',shell = True)
-		executable = subprocess.run('echo iptables-persistent iptables-persistent/autosave_v4 boolean true | sudo debconf-set-selections',shell = True)
-		executable = subprocess.run('echo iptables-persistent iptables-persistent/autosave_v6 boolean true | sudo debconf-set-selections',shell = True)
-		executable = subprocess.run('apt-get install iptables-persistent -y',shell = True)
-		executable = subprocess.run('netfilter-persistent save',shell = True)
+			subprocess.run('systemctl disable firewalld', shell = True)
+			subprocess.run('systemctl enable iptables', shell = True)
+			subprocess.run('service iptables save',shell = True)
+		subprocess.run('chmod +x /usr/local/sbin/firewall.sh',shell = True)
+		subprocess.run('/usr/local/sbin/firewall.sh stop',shell = True)
+		subprocess.run('/usr/local/sbin/firewall.sh start',shell = True)
+		if self.ostype.nomdist[0] != 'centos':
+			subprocess.run('netfilter-persistent save',shell = True)
