@@ -57,6 +57,7 @@ class Main :
     while cont =='o' and i<3:
         #request options for the dhcp
         dhcp.subnet= input("sur quelle réseau doit etre le dhcp ? \n")
+        dhcp.netmask= input("quel est le masque du réseau ? \n")
         address = input("quelle est la première addresse de la range ? \n")
         dhcp.drange.append(address)
         address = input("quelle est la dernière addresse de la range ? \n")
@@ -74,7 +75,7 @@ class Main :
     while (not (cont == 'n') and not (cont == 'o')) : 
         cont = input("veuiller entrer une valeur correcte. o pour oui, n pour non \n")
     if cont == 'o' :
-        parefeu = FireWall(interfaces.address)
+        parefeu = FireWall(interfaces.nom)
         parefeu.interface = interfaces.address
         parefeu.initFichier(parefeu.interface)
         parefeu.standardConfig()
