@@ -2,14 +2,31 @@
 from utils.DHCP import *
 from utils.FireWall import *
 from utils.Interface import *
+import subprocess
 
 class Main :
 
-#INTERFACE
     interfaces = Interface()
-    #request the address for the first interface
+    #downloading necessary package
+    if interfaces.ostype.nomdist[0]=='centos':
+        subprocess.run('yum -y install dhcp',shell=True)
+        subprocess.run('yum install iptables-services -y', shell = True)
+    else:
+        subprocess.run('apt-get install isc-dhcp-server -y',shell=True)
+        subprocess.run('echo iptables-persistent iptables-persistent/autosave_v4 boolean true | sudo debconf-set-selections',shell = True)
+        subprocess.run('echo iptables-persistent iptables-persistent/autosave_v6 boolean true | sudo debconf-set-selections',shell = True)
+        subprocess.run('apt-get install iptables-persistent -y',shell = True)
+
+#INTERFACE
+    #request the address and netsmak for the first interface
     naddress = input("Entrez la première address \n")
     interfaces.address.append(naddress)
+    if interfaces.ostype.nomdist[0]=='ubuntu':
+        netmask = input("Entrez le masque de sous réseau au format CIDR (ex: /24) \n")
+        interfaces.netmask.append(netmask)
+    else:
+        netmask = input("Entrez le masque de sous réseau \n")
+        interfaces.netmask.append(netmask)
     cont = input("Entrer une autre addresse ? o pour oui, n pour non \n")
     #if 'o' request address for other interfaces if 'n' skip
     while ( not(cont == 'n') and not(cont == 'o')):
@@ -17,37 +34,48 @@ class Main :
     while cont == 'o':
         naddress = input("Entrez l'addresse suivante \n")
         interfaces.address.append(naddress)
+        if interfaces.ostype.nomdist[0]=='ubuntu':
+            netmask = input("Entrez le masque de sous réseau au format CIDR (ex: /24) \n")
+            interfaces.netmask.append(netmask)
+        else:
+            netmask = input("Entrez le masque de sous réseau \n")
+            interfaces.netmask.append(netmask)
         cont = input("Entrer une autre addresse ? o pour oui, n pour non \n")
         while (not (cont == 'n') and not (cont == 'o')) :
             cont = input("veuiller entrer une valeur correcte. o pour oui, n pour non \n")
     interfaces.renameInterface(interfaces.listMac)
     interfaces.configInterface(interfaces.listMac,interfaces.address)
 #DHCP
-    dhcp = DHCP()
     #if 'o' starts the dhcp configuration if 'n' skip
-    cont = input("Voulez vous configurez un dhcp ? o pour oui, n pour non \n")
+    cont = input("Voulez vous configurez un serveur dhcp ?(max 3) o pour oui, n pour non \n")
     while (not ( cont == 'n') and not (cont == 'o')) :
         cont = input("veuiller entrer une valeur correcte. o pour oui, n pour non \n")
-    while cont =='o':
+    i=0
+    if cont =='o':
+        dhcp = DHCP()
+        shutil.copy("utils/dhcpd.conf", "/etc/dhcp/")
+    while cont =='o' and i<3:
         #request options for the dhcp
         dhcp.subnet= input("sur quelle réseau doit etre le dhcp ? \n")
+        dhcp.netmask= input("quel est le masque du réseau ? \n")
         address = input("quelle est la première addresse de la range ? \n")
         dhcp.drange.append(address)
         address = input("quelle est la dernière addresse de la range ? \n")
         dhcp.drange.append(address)
         dhcp.gateway= input("quelle est la passerelle ? \n")
         dhcp.configDHCP(dhcp.subnet,dhcp.drange,dhcp.gateway)
-        cont = input("Voulez vous configurez un autre dhcp ? o pour oui, n pour non \n")
+        cont = input("Voulez vous configurez un autre serveur dhcp ? o pour oui, n pour non \n")
         while (not ( cont == 'n') and not (cont == 'o')) :
             cont = input("veuiller entrer une valeur correcte. o pour oui, n pour non \n")
+        i+=1
 	
 #PAREFEU
-    parefeu = FireWall(interfaces.address)
     #if 'o' starts the firewall configuration if 'n' skip
     cont = input("Voulez vous configurez un parefeu ? o pour oui, n pour non \n")
     while (not (cont == 'n') and not (cont == 'o')) : 
         cont = input("veuiller entrer une valeur correcte. o pour oui, n pour non \n")
     if cont == 'o' :
+        parefeu = FireWall(interfaces.nom)
         parefeu.interface = interfaces.address
         parefeu.initFichier(parefeu.interface)
         parefeu.standardConfig()

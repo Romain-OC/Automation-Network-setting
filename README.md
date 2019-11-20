@@ -3,7 +3,9 @@
 
 Supported OS (Debian 9,Ubuntu,CentOS)
 
-Requirement : distro module for python3
+Requirement : 
+*Distro module for python3
+*Need to be executed as Superuser
 
 # Français :
 
