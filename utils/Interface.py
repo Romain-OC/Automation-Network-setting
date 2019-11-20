@@ -66,9 +66,9 @@ class Interface:
             i=0
             while i<(len(self.address)-1):
                 temp = {
-                        "\t#eth"+str(i)+":": "\teth"+str(i)+":",
-                        "\t\t#dhcp4: yes"+str(i): "\t\tdhcp4: no",
-                        "\t\t#addresses: []"+str(i): "\t\taddresses: ["+self.address[i]+""+self.netmask[i]+"]"
+                        "    #eth"+str(i)+":": "    eth"+str(i)+":",
+                        "      #dhcp4: yes"+str(i): "      dhcp4: no",
+                        "      #addresses: []"+str(i): "      addresses: ["+self.address[i]+""+self.netmask[i]+"]"
                         }
                 for line in fileinput.input('/etc/netplan/01-netcfg.yaml',inplace=True):
                     line = line.rstrip('\r\n')
