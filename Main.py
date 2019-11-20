@@ -2,6 +2,7 @@
 from utils.DHCP import *
 from utils.FireWall import *
 from utils.Interface import *
+import subprocess
 
 class Main :
 
@@ -41,6 +42,12 @@ class Main :
     while (not ( cont == 'n') and not (cont == 'o')) :
         cont = input("veuiller entrer une valeur correcte. o pour oui, n pour non \n")
     i=0
+    if cont =='o':
+        shutil.copy("utils/dhcpd.conf", "/etc/dhcp/")
+        if interfaces.ostype.nomdist[0]=='centos':
+            subprocess.run('yum -y install dhcp',shell=True)
+        else:
+            subprocess.run('apt-get install isc-dhcp-server -y',shell=True)
     while cont =='o' and i<3:
         #request options for the dhcp
         dhcp.subnet= input("sur quelle réseau doit etre le dhcp ? \n")

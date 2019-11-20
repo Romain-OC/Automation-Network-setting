@@ -13,7 +13,6 @@ class DHCP:
 
     #replace the comment in the dhcp file by the requested value 
     def configDHCP(self,subnet,drange,gateway):
-        mon_fichier = shutil.copy("utils/dhcpd.conf", "/etc/dhcp/")
         filename = '/etc/dhcp/dhcpd.conf'
         tempoption = {
                 '#subnet '+str(self.nbdhcp)+' netmask 255.255.255.0 {':'subnet '+self.subnet+' netmask 255.255.255.0 {',

@@ -46,13 +46,13 @@ class FireWall:
 	#make the firewall file , executable and configure the start and stop at boot of the OS
 	def launchFirewall(self):
 		if self.ostype.nomdist[0] == 'centos':
-			executable = subprocess.run('systemctl disable firewalld', shell = True)
-			executable = subprocess.run('yum install iptables-services -y', shell = True)
-			executable = subprocess.run('systemctl enable iptables', shell = True)
+			subprocess.run('systemctl disable firewalld', shell = True)
+			subprocess.run('yum install iptables-services -y', shell = True)
+			subprocess.run('systemctl enable iptables', shell = True)
 			#executable = subprocess.run('service iptables save',shell = True)
-		executable = subprocess.run('chmod +x /usr/local/sbin/firewall.sh',shell = True)
-		executable = subprocess.run('/usr/local/sbin/firewall.sh start',shell = True)
-		executable = subprocess.run('echo iptables-persistent iptables-persistent/autosave_v4 boolean true | sudo debconf-set-selections',shell = True)
-		executable = subprocess.run('echo iptables-persistent iptables-persistent/autosave_v6 boolean true | sudo debconf-set-selections',shell = True)
-		executable = subprocess.run('apt-get install iptables-persistent -y',shell = True)
-		executable = subprocess.run('netfilter-persistent save',shell = True)
+		subprocess.run('chmod +x /usr/local/sbin/firewall.sh',shell = True)
+		subprocess.run('/usr/local/sbin/firewall.sh start',shell = True)
+		subprocess.run('echo iptables-persistent iptables-persistent/autosave_v4 boolean true | sudo debconf-set-selections',shell = True)
+		subprocess.run('echo iptables-persistent iptables-persistent/autosave_v6 boolean true | sudo debconf-set-selections',shell = True)
+		subprocess.run('apt-get install iptables-persistent -y',shell = True)
+		subprocess.run('netfilter-persistent save',shell = True)

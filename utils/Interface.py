@@ -42,11 +42,12 @@ class Interface:
                 line = line.rstrip('\r\n')
                 print(temp.get(line,line))
             subprocess.run('grub-mkconfig -o /boot/grub/grub.cfg',shell=True)
-
+    #set up the interfaces configuration files depending on the OS
     def configInterface(self,listMac,address):
         self.chemin= self.pathfile(self.ostype.nomdist[0])
+        #Debian
         if self.chemin == '/etc/network/interfaces':
-            mon_fichier = shutil.copy('utils/interfaces','/etc/network/')
+            shutil.copy('utils/interfaces','/etc/network/')
             i=0
             while i<(len(self.address)-1):
                 temp = {
@@ -62,6 +63,7 @@ class Interface:
                     line = line.rstrip('\r\n')
                     print(temp.get(line, line))
                 i=i+1
+        #Ubuntu
         elif self.chemin == "/etc/netplan/01-netcfg.yaml":
             shutil.copy('utils/01-netcfg.yaml', '/etc/netplan/')
             i=0
@@ -76,6 +78,7 @@ class Interface:
                     print(temp.get(line, line))
                 i+=1
             subprocess.run('netplan apply',shell = True)
+        #CentOS
         elif self.chemin == "/etc/sysconfig/network-scripts/":
             i=0
             while i<(len(self.address)-1):
