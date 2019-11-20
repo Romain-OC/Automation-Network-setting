@@ -9,7 +9,7 @@ class Interface:
 
     def __init__(self):
 
-        self.nom = "eth"
+        self.nom = list()
         self.address = list()
         self.netmask = list()
         self.macAddress = subprocess.run('ip a |grep ether |cut -d\' \' -f6', shell = True, stdout = subprocess.PIPE, stderr = subprocess.PIPE)
@@ -31,7 +31,7 @@ class Interface:
         i = 0
         while i<(len(listMac)-1):
             mon_fichier.write("SUBSYSTEM==\"net\", ACTION==\"add\", DRIVERS==\"?*\",ATTR{address}==\""+self.listMac[i]+"\",ATTR{dev_id}==\"0x0\", ATTR{type}==\"1\",KERNEL==\"eth*\", NAME=\"eth"+str(i)+"\" \n")
-            self.address.append("eth"+str(i))
+            self.nom.append("eth"+str(i))
             i+=1
         mon_fichier.close()
         if self.ostype.nomdist[0]=='debian':
