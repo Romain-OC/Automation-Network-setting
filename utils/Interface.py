@@ -55,6 +55,7 @@ class Interface:
                         "\t#address eth"+str(i): "\taddress "+self.address[i],
                         "\t#netmask eth"+str(i): "\tnetmask "+self.netmask[i]
                         }
+                print(i)
                 for line in fileinput.input('/etc/network/interfaces',inplace=True):
                     line = line.rstrip('\r\n')
                     print(temp.get(line, line))
