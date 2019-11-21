@@ -9,7 +9,7 @@ class Main :
     interfaces = Interface()
     #downloading necessary package
     if interfaces.ostype.nomdist[0]=='centos':
-        subprocess.run('yum -y install dhcp',shell=True)
+        subprocess.run('yum -y install dhcp-server',shell=True)
         subprocess.run('yum install iptables-services -y', shell = True)
     else:
         subprocess.run('apt-get install isc-dhcp-server -y',shell=True)
