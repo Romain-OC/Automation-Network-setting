@@ -34,7 +34,7 @@ class Interface:
             self.nom.append("eth"+str(i))
             i+=1
         mon_fichier.close()
-        if self.ostype.nomdist[0]=='debian':
+        if self.ostype.nomdist[0]=='debian' or self.ostype.nomdist[0]=='centos':
             temp = {
                     'GRUB_CMDLINE_LINUX=\"\"':'GRUB_CMDLINE_LINUX=\"net.ifnames=0 biosdevname=0\"'
                 }
@@ -42,6 +42,8 @@ class Interface:
                 line = line.rstrip('\r\n')
                 print(temp.get(line,line))
             subprocess.run('grub-mkconfig -o /boot/grub/grub.cfg',shell=True)
+        if self.ostype.nomdist[0]=='centos':
+            subprocess.run('systemctl disable NetworkManager',shell=True)
     #set up the interfaces configuration files depending on the OS
     def configInterface(self,listMac,address):
         self.chemin= self.pathfile(self.ostype.nomdist[0])
