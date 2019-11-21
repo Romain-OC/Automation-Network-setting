@@ -34,7 +34,7 @@ class Interface:
             self.nom.append("eth"+str(i))
             i+=1
         mon_fichier.close()
-        if self.ostype.nomdist[0]=='debian':
+        if self.ostype.nomdist[0]=='debian' or self.ostype.nomdist[0]=='ubuntu':
             temp = {
                     'GRUB_CMDLINE_LINUX=\"\"':'GRUB_CMDLINE_LINUX=\"net.ifnames=0 biosdevname=0\"'
                 }
@@ -75,8 +75,8 @@ class Interface:
             i=0
             while i<(len(self.address)-1):
                 temp = {
-                        "    #eth"+str(i)+":": "    eth"+str(i)+":",
-                        "      #addresses: []"+str(i): "      addresses: ["+self.address[i]+"/"+self.netmask[i]+"]"
+                        "\t#eth"+str(i)+":": "\teth"+str(i)+":",
+                        "\t  #addresses: []"+str(i): "\t  addresses: ["+self.address[i]+"/"+self.netmask[i]+"]"
                         }
                 for line in fileinput.input('/etc/netplan/01-netcfg.yaml',inplace=True):
                     line = line.rstrip('\r\n')

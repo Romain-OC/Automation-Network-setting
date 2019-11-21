@@ -22,7 +22,7 @@ class Main :
     naddress = input("Entrez la première address \n")
     interfaces.address.append(naddress)
     if interfaces.ostype.nomdist[0]=='ubuntu':
-        netmask = input("Entrez le masque de sous réseau au format CIDR (ex: /24) \n")
+        netmask = input("Entrez le masque de sous réseau au format CIDR (ex: 24) \n")
         interfaces.netmask.append(netmask)
     else:
         netmask = input("Entrez le masque de sous réseau \n")
@@ -35,7 +35,7 @@ class Main :
         naddress = input("Entrez l'addresse suivante \n")
         interfaces.address.append(naddress)
         if interfaces.ostype.nomdist[0]=='ubuntu':
-            netmask = input("Entrez le masque de sous réseau au format CIDR (ex: /24) \n")
+            netmask = input("Entrez le masque de sous réseau au format CIDR (ex: 24) \n")
             interfaces.netmask.append(netmask)
         else:
             netmask = input("Entrez le masque de sous réseau \n")
