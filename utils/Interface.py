@@ -50,7 +50,6 @@ class Interface:
                 line = line.rstrip('\r\n')
                 print(temp.get(line,line))
             subprocess.run('grub2-mkconfig -o /boot/grub2/grub2.cfg',shell=True)
-            #subprocess.run('systemctl disable NetworkManager',shell=True)
     #set up the interfaces configuration files depending on the OS
     def configInterface(self,listMac,address):
         self.chemin= self.pathfile(self.ostype.nomdist[0])
@@ -75,8 +74,8 @@ class Interface:
             i=0
             while i<(len(self.address)-1):
                 temp = {
-                        "\t#eth"+str(i)+":": "\teth"+str(i)+":",
-                        "\t  #addresses: []"+str(i): "\t  addresses: ["+self.address[i]+"/"+self.netmask[i]+"]"
+                        "#eth"+str(i)+":": "        eth"+str(i)+":",
+                        "#addresses:[]"+str(i): "            addresses: ["+self.address[i]+"/"+self.netmask[i]+"]"
                         }
                 for line in fileinput.input('/etc/netplan/01-netcfg.yaml',inplace=True):
                     line = line.rstrip('\r\n')
