@@ -76,11 +76,12 @@ class Interface:
             while i<(len(self.address)-1):
                 temp = {
                         "    #eth"+str(i)+":": "    eth"+str(i)+":",
-                        "      #addresses: []"+str(i): "      addresses: ["+self.address[i]+""+self.netmask[i]+"]"
+                        "      #addresses: []"+str(i): "      addresses: ["+self.address[i]+"/"+self.netmask[i]+"]"
                         }
                 for line in fileinput.input('/etc/netplan/01-netcfg.yaml',inplace=True):
                     line = line.rstrip('\r\n')
                     print(temp.get(line, line))
+                print(i)
                 i+=1
             subprocess.run('netplan apply',shell = True)
         #CentOS
