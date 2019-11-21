@@ -72,16 +72,15 @@ class Interface:
         elif self.chemin == "/etc/netplan/01-netcfg.yaml":
             shutil.copy('utils/01-netcfg.yaml', '/etc/netplan/')
             i=0
-            while i<(len(self.address)-1):
+            while i<(len(self.address)):
                 temp = {
-                        "#eth"+str(i)+":": "        eth"+str(i)+":",
-                        "#addresses:[]"+str(i): "            addresses: ["+self.address[i]+"/"+self.netmask[i]+"]"
+                        "        #eth"+str(i)+":": "        eth"+str(i)+":",
+                        "            #addresses:[]"+str(i): "            addresses: ["+self.address[i]+"/"+self.netmask[i]+"]"
                         }
                 for line in fileinput.input('/etc/netplan/01-netcfg.yaml',inplace=True):
                     line = line.rstrip('\r\n')
                     print(temp.get(line, line))
-                print(i)
-                i+=1
+                i=i+1
             subprocess.run('netplan apply',shell = True)
         #CentOS
         elif self.chemin == "/etc/sysconfig/network-scripts/":
@@ -100,4 +99,4 @@ class Interface:
                 for line in fileinput.input('/etc/sysconfig/network-scripts/ifcfg-eth'+str(i),inplace=True):
                     line = line.rstrip('\r\n')
                     print(temp.get(line, line))
-                i+=1
+                i=i+1
