@@ -12,6 +12,7 @@ class Interface:
         self.nom = list()
         self.address = list()
         self.netmask = list()
+        self.gateway = ""
         self.macAddress = subprocess.run('ip a |grep ether |cut -d\' \' -f6', shell = True, stdout = subprocess.PIPE, stderr = subprocess.PIPE)
         self.mac = self.macAddress.stdout
         self.listMac = self.mac.decode().split("\n")
@@ -44,7 +45,7 @@ class Interface:
             subprocess.run('grub-mkconfig -o /boot/grub/grub.cfg',shell=True)
         if self.ostype.nomdist[0]=='centos':
             temp = {
-                    'GRUB_CMDLINE_LINUX=\"\"':'GRUB_CMDLINE_LINUX=\"net.ifnames=0 biosdevname=0\"'
+                    'GRUB_CMDLINE_LINUX=\"crashkernel=auto resume=/dev/mapper/cl-swap rd.lvm.lv=cl/root rd.lvm.lv=cl/swap rhgb quiet\"':'GRUB_CMDLINE_LINUX=\"crashkernel=auto resume=/dev/mapper/cl-swap rd.lvm.lv=cl/root rd.lvm.lv=cl/swap net.ifnames=0 rhgb quiet\"'
                 }
             for line in fileinput.input('/etc/default/grub',inplace=True):
                 line = line.rstrip('\r\n')
@@ -62,7 +63,8 @@ class Interface:
                         "#allow-hotplug eth"+str(i): "allow-hotplug eth"+str(i),
                         "#iface eth"+str(i)+" inet dhcp": "iface eth"+str(i)+" inet static",
                         "\t#address eth"+str(i): "\taddress "+self.address[i],
-                        "\t#netmask eth"+str(i): "\tnetmask "+self.netmask[i]
+                        "\t#netmask eth"+str(i): "\tnetmask "+self.netmask[i],
+                        "\t#gateway eth"+str(i): "\tgateway "+self.gateway
                         }
                 for line in fileinput.input('/etc/network/interfaces',inplace=True):
                     line = line.rstrip('\r\n')
@@ -75,7 +77,8 @@ class Interface:
             while i<(len(self.address)):
                 temp = {
                         "        #eth"+str(i)+":": "        eth"+str(i)+":",
-                        "            #addresses:[]"+str(i): "            addresses: ["+self.address[i]+"/"+self.netmask[i]+"]"
+                        "            #addresses:[]"+str(i): "            addresses: ["+self.address[i]+"/"+self.netmask[i]+"]",
+                        "            #gateway:"+str(i):"            #gateway: "+self.gateway
                         }
                 for line in fileinput.input('/etc/netplan/01-netcfg.yaml',inplace=True):
                     line = line.rstrip('\r\n')
@@ -94,7 +97,8 @@ class Interface:
                         "#MAC":"MAC="+self.listMac[i],
                         "#BOOTPROTO=none":"BOOTPROTO=none",
                         "#NETMASK=":"NETMASK="+self.netmask[i],
-                        "#IPADDR=":"IPADDR="+self.address[i]
+                        "#IPADDR=":"IPADDR="+self.address[i],
+                        "#GATEWAY=":"GATEWAY="+self.gateway
                         }
                 for line in fileinput.input('/etc/sysconfig/network-scripts/ifcfg-eth'+str(i),inplace=True):
                     line = line.rstrip('\r\n')

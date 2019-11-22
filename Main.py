@@ -22,9 +22,11 @@ class Main :
     #request the address and netsmak for the first interface
     regex = '''^(25[0-5]|2[0-4][0-9]|[0-1]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[0-1]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[0-1]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[0-1]?[0-9][0-9]?)'''
     naddress = input("Entrez la première address \n")
+    #test the input and search if it's a valid ip adress
     while not(re.search(regex, naddress)):
         naddress = input("Entrez une addresse valide \n")
     interfaces.address.append(naddress)
+    #test the os and ask for netmask 
     if interfaces.ostype.nomdist[0]=='ubuntu':
         netmask = input("Entrez le masque de sous réseau au format CIDR (ex: 24) \n")
         interfaces.netmask.append(netmask)
@@ -49,6 +51,11 @@ class Main :
         cont = input("Entrer une autre addresse ? o pour oui, n pour non \n")
         while (not (cont == 'n') and not (cont == 'o')) :
             cont = input("veuiller entrer une valeur correcte. o pour oui, n pour non \n")
+    gateway = input("Entrez l'adresse de la passerelle par défault \n")
+    while not(re.search(regex, gateway)):
+            gateway = input("Entrez une addresse valide \n")
+    interfaces.gateway=gateway
+    #run the configuration functions
     interfaces.renameInterface(interfaces.listMac)
     interfaces.configInterface(interfaces.listMac,interfaces.address)
 #DHCP
@@ -74,7 +81,6 @@ class Main :
         while (not ( cont == 'n') and not (cont == 'o')) :
             cont = input("veuiller entrer une valeur correcte. o pour oui, n pour non \n")
         i+=1
-	
 #PAREFEU
     #if 'o' starts the firewall configuration if 'n' skip
     cont = input("Voulez vous configurez un parefeu ? o pour oui, n pour non \n")
