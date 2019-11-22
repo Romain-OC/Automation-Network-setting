@@ -11,9 +11,13 @@ Requirement :
 
 Ce projet à pour but d’automatiser les tâches de configuration des interfaces réseaux ainsi que la mise en place d’un pare-feu à l’aide d’iptables.
 
+Au lancement le programme va télécharger les packages necessaire pour les serveur dhcp et iptables.
+Une fenêtre apparraitra lors de l'installation d'iptables-persistent (sur Debian uniquement),
+Choisir Non pour les deux questions posés.
+
 ## Configuration des Interfaces :
 
-Au lancement le programme va renommer les interfaces réseaux avec l’ancienne appellation « ethx »
+Les interfaces réseaux seront renommés avec l’ancienne appellation « ethx »
 Il vous sera demandé de rentrer les adresses IP voulu pour les interfaces dans l’ordre eth0, eth1 etc...
 Ensuite les fichiers de configuration (/etc/network/interfaces, /etc/netplan/01-netcfg.yaml, /etc/sysconfig/network-scripts/ifcfg-eth) seront générés automatiquement en fonction de votre système d’exploitation avec les adresses IP données 
 
@@ -36,9 +40,13 @@ Vous pourrez choisir quels port vous voulez ouvrir
 
 The purpose of this project is to automate network interfaces configuration tasks and the installation of a firewall using iptables.
 
-## Configuration interfaces :
+At launch the program will download the necessary packages for dhcp servers and iptables.
+A window will appear when installing iptables-persistent (on Debian only),
+Choose No for both questions asked.
 
-At launch the program will rename the network interfaces with the old name "ethx".
+## Interfaces configuration:
+
+The network interfaces will be renamed with the old name "ethx".
 You will be asked to enter the IP addresses required for the interfaces in the order eth0, eth1 etc....
 Then the configuration files (/etc/network/interfaces, /etc/netplan/01-netcfg.yaml, /etc/sysconfig/network-scripts/ifcfg-eth) will be automatically generated according to your operating system with the IP addresses 
 
