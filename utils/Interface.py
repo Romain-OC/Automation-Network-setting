@@ -78,7 +78,7 @@ class Interface:
                 temp = {
                         "        #eth"+str(i)+":": "        eth"+str(i)+":",
                         "            #addresses:[]"+str(i): "            addresses: ["+self.address[i]+"/"+self.netmask[i]+"]",
-                        "            #gateway:"+str(i):"            #gateway: "+self.gateway
+                        "            #gateway:"+str(i):"            gateway: "+self.gateway
                         }
                 for line in fileinput.input('/etc/netplan/01-netcfg.yaml',inplace=True):
                     line = line.rstrip('\r\n')
