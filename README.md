@@ -11,8 +11,8 @@ Requirement :
 
 Ce projet à pour but d’automatiser les tâches de configuration des interfaces réseaux ainsi que la mise en place d’un pare-feu à l’aide d’iptables.
 
-Au lancement le programme va télécharger les packages necessaire pour les serveur dhcp et iptables.
-Une fenêtre apparraitra lors de l'installation d'iptables-persistent (sur Debian uniquement),
+Au lancement le programme va télécharger les packages necessaire pour les serveur dhcp et iptables.  
+Une fenêtre apparraitra lors de l'installation d'iptables-persistent (sur Debian uniquement),  
 Choisir Non pour les deux questions posés.
 
 ## Configuration des Interfaces :
@@ -40,9 +40,9 @@ Vous pourrez choisir quels port vous voulez ouvrir
 
 The purpose of this project is to automate network interfaces configuration tasks and the installation of a firewall using iptables.
 
-At launch the program will download the necessary packages for dhcp servers and iptables.
-A window will appear when installing iptables-persistent (on Debian only),
-Choose No for both questions asked.
+At launch the program will download the necessary packages for dhcp servers and iptables.  
+A window will appear when installing iptables-persistent (on Debian only),  
+Choose No for both questions asked.  
 
 ## Interfaces configuration:
 
