@@ -5,6 +5,7 @@ network:
     ethernets:
         #eth0:
             #addresses:[]0
+            #gateway:0
         #eth1:
             #addresses:[]1
         #eth2:
