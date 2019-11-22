@@ -34,7 +34,7 @@ class Interface:
             self.nom.append("eth"+str(i))
             i+=1
         mon_fichier.close()
-        if self.ostype.nomdist[0]=='debian':
+        if self.ostype.nomdist[0]=='debian' or self.ostype.nomdist[0]=='ubuntu':
             temp = {
                     'GRUB_CMDLINE_LINUX=\"\"':'GRUB_CMDLINE_LINUX=\"net.ifnames=0 biosdevname=0\"'
                 }
@@ -42,6 +42,14 @@ class Interface:
                 line = line.rstrip('\r\n')
                 print(temp.get(line,line))
             subprocess.run('grub-mkconfig -o /boot/grub/grub.cfg',shell=True)
+        if self.ostype.nomdist[0]=='centos':
+            temp = {
+                    'GRUB_CMDLINE_LINUX=\"\"':'GRUB_CMDLINE_LINUX=\"net.ifnames=0 biosdevname=0\"'
+                }
+            for line in fileinput.input('/etc/default/grub',inplace=True):
+                line = line.rstrip('\r\n')
+                print(temp.get(line,line))
+            subprocess.run('grub2-mkconfig -o /boot/grub2/grub2.cfg',shell=True)
     #set up the interfaces configuration files depending on the OS
     def configInterface(self,listMac,address):
         self.chemin= self.pathfile(self.ostype.nomdist[0])
@@ -49,7 +57,7 @@ class Interface:
         if self.chemin == '/etc/network/interfaces':
             shutil.copy('utils/interfaces','/etc/network/')
             i=0
-            while i<(len(self.address)-1):
+            while i<(len(self.address)):
                 temp = {
                         "#allow-hotplug eth"+str(i): "allow-hotplug eth"+str(i),
                         "#iface eth"+str(i)+" inet dhcp": "iface eth"+str(i)+" inet static",
@@ -59,15 +67,15 @@ class Interface:
                 for line in fileinput.input('/etc/network/interfaces',inplace=True):
                     line = line.rstrip('\r\n')
                     print(temp.get(line, line))
-                i=i+1
+                i+=1
         #Ubuntu
         elif self.chemin == "/etc/netplan/01-netcfg.yaml":
             shutil.copy('utils/01-netcfg.yaml', '/etc/netplan/')
             i=0
-            while i<(len(self.address)-1):
+            while i<(len(self.address)):
                 temp = {
-                        "    #eth"+str(i)+":": "    eth"+str(i)+":",
-                        "      #addresses: []"+str(i): "      addresses: ["+self.address[i]+""+self.netmask[i]+"]"
+                        "        #eth"+str(i)+":": "        eth"+str(i)+":",
+                        "            #addresses:[]"+str(i): "            addresses: ["+self.address[i]+"/"+self.netmask[i]+"]"
                         }
                 for line in fileinput.input('/etc/netplan/01-netcfg.yaml',inplace=True):
                     line = line.rstrip('\r\n')
@@ -77,7 +85,7 @@ class Interface:
         #CentOS
         elif self.chemin == "/etc/sysconfig/network-scripts/":
             i=0
-            while i<(len(self.address)-1):
+            while i<(len(self.address)):
                 shutil.copy('utils/ifcfg-eth0', '/etc/sysconfig/network-scripts/ifcfg-eth'+str(i))
                 temp = {
                         "#DEVICE=eth0": "DEVICE=eth"+str(i),

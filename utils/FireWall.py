@@ -52,7 +52,7 @@ class FireWall:
 			subprocess.run('systemctl enable iptables', shell = True)
 			subprocess.run('service iptables save',shell = True)
 		subprocess.run('chmod +x /usr/local/sbin/firewall.sh',shell = True)
-		subprocess.run('/usr/local/sbin/firewall.sh stop',shell = True)
+		subprocess.run('iptables -F',shell = True)
 		subprocess.run('/usr/local/sbin/firewall.sh start',shell = True)
 		if self.ostype.nomdist[0] != 'centos':
 			subprocess.run('netfilter-persistent save',shell = True)

@@ -3,13 +3,14 @@ from utils.DHCP import *
 from utils.FireWall import *
 from utils.Interface import *
 import subprocess
+import re
 
 class Main :
 
     interfaces = Interface()
     #downloading necessary package
     if interfaces.ostype.nomdist[0]=='centos':
-        subprocess.run('yum -y install dhcp',shell=True)
+        subprocess.run('yum -y install dhcp-server',shell=True)
         subprocess.run('yum install iptables-services -y', shell = True)
     else:
         subprocess.run('apt-get install isc-dhcp-server -y',shell=True)
@@ -19,10 +20,13 @@ class Main :
 
 #INTERFACE
     #request the address and netsmak for the first interface
+    regex = '''^(25[0-5]|2[0-4][0-9]|[0-1]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[0-1]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[0-1]?[0-9][0-9]?)\.(25[0-5]|2[0-4][0-9]|[0-1]?[0-9][0-9]?)'''
     naddress = input("Entrez la première address \n")
+    while not(re.search(regex, naddress)):
+        naddress = input("Entrez une addresse valide \n")
     interfaces.address.append(naddress)
     if interfaces.ostype.nomdist[0]=='ubuntu':
-        netmask = input("Entrez le masque de sous réseau au format CIDR (ex: /24) \n")
+        netmask = input("Entrez le masque de sous réseau au format CIDR (ex: 24) \n")
         interfaces.netmask.append(netmask)
     else:
         netmask = input("Entrez le masque de sous réseau \n")
@@ -33,9 +37,11 @@ class Main :
         cont = input("veuiller entrer une valeur correcte. o pour oui, n pour non \n")
     while cont == 'o':
         naddress = input("Entrez l'addresse suivante \n")
+        while not(re.search(regex, naddress)):
+            naddress = input("Entrez une addresse valide \n")
         interfaces.address.append(naddress)
         if interfaces.ostype.nomdist[0]=='ubuntu':
-            netmask = input("Entrez le masque de sous réseau au format CIDR (ex: /24) \n")
+            netmask = input("Entrez le masque de sous réseau au format CIDR (ex: 24) \n")
             interfaces.netmask.append(netmask)
         else:
             netmask = input("Entrez le masque de sous réseau \n")
