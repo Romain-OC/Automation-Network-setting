@@ -32,7 +32,6 @@ class FireWall:
 	def OpenPort(self,openPort,protocol):
 		firewall = open("/usr/local/sbin/firewall.sh", "a")
 		i = 0
-		print(len(protocol))
 		while i<(len(protocol)):
 			firewall.write("$IPT -A INPUT -p "+protocol[i]+" -i $WAN --dport "+openPort[i]+" -j ACCEPT \n")
 			i+=1
