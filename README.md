@@ -1,7 +1,7 @@
 ## Automation-Network-setting
 # _Documentation utilisateur :_
 
-Supported OS (Debian 9,Ubuntu 18,CentOS 8)
+Supported OS (Debian 9,Ubuntu 18,CentOS 8 except the Firewall)
 
 Requirement : 
 * Distro module for python3
